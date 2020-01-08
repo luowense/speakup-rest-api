@@ -19,7 +19,7 @@ $api->version('v1', function (Router $api) {
 
         $api->get('users', 'App\\Api\\V1\\Controllers\\UsersController@index');
         $api->post('messages', 'App\\Api\\V1\\Controllers\\MessagesController@index');
-        $api->post('send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
+        $api->post('messages/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
     });
 
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {

@@ -7,6 +7,7 @@ use App\Events\MessageSent;
 use App\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
@@ -40,12 +41,12 @@ class MessagesController extends Controller
     public function store(Request $request)
     {
         $message = Message::create([
-            'sender_id'   => $request->input('sender_id'),
-            'receiver_id' => $request->input('receiver_id'),
+            'sender_id'   => Auth::id(),
+            'receiver_id' => Auth::id(),
             'message'     => $request->input('message'),
         ]);
 
-        broadcast(new MessageSent($message));
+        //broadcast(new MessageSent($message));
 
         return $message->fresh();
     }
