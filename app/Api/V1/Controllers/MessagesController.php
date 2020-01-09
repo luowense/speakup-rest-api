@@ -3,10 +3,11 @@
 
 namespace App\Api\V1\Controllers;
 
-use App\Events\MessageSent;
+use App\Api\V1\Events\MessageSent;
 use App\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
@@ -14,7 +15,8 @@ class MessagesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function index()
     {
@@ -30,13 +32,13 @@ class MessagesController extends Controller
                     ->byReceiver(request()->input('sender_id'));
             })
             ->get();
-    }
+}
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -46,7 +48,8 @@ class MessagesController extends Controller
             'message'     => $request->input('message'),
         ]);
 
-        //broadcast(new MessageSent($message));
+        $m = new MessageSent($message);
+        $m->broadcastOn();
 
         return $message->fresh();
     }
