@@ -10,6 +10,7 @@ class Message extends Model
         'sender_id',
         'receiver_id',
         'message',
+        'ticket_id'
     ];
 
     protected $with = ['sender', 'receiver'];
@@ -32,5 +33,10 @@ class Message extends Model
     public function receiver()
     {
         return $this->belongsTo(User::class, 'receiver_id')->select(['id', 'name']);
+    }
+
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class, 'ticket_id')->select(['id', 'name']);
     }
 }

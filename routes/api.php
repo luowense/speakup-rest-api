@@ -22,6 +22,9 @@ $api->version('v1', function (Router $api) {
         $api->post('messages/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
     });
 
+    $api->post('tickets/start', 'App\\Api\\V1\\Controllers\\TicketController@start');
+    $api->get('tickets/{id}', 'App\\Api\\V1\\Controllers\\TicketController@index');
+
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->get('protected', function() {
             return response()->json([
