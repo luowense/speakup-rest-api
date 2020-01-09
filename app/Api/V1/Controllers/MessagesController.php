@@ -44,13 +44,13 @@ class MessagesController extends Controller
     public function store(Request $request)
     {
         $message = Message::create([
-            'sender_id' => Auth::id(),
-            'receiver_id' => Auth::id(),
+            'sender_id' => Auth::user()->id,
+            'receiver_id' => Auth::user()->id,
             'message' => $request->input('message'),
             'ticket_id' => $request->input('ticket_id'),
         ]);
-
-        $m = new MessageSent($message);
+        $user = Auth::user()->getAuthIdentifier();
+        $m = new MessageSent($message, $user);
         $m->broadcastOn();
 
         return $message->fresh();
