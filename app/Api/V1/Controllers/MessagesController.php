@@ -5,6 +5,7 @@ namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Events\MessageSent;
 use App\Message;
+use App\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
@@ -43,9 +44,9 @@ class MessagesController extends Controller
     public function store(Request $request)
     {
         $message = Message::create([
-            'sender_id'   => Auth::id(),
+            'sender_id' => Auth::id(),
             'receiver_id' => Auth::id(),
-            'message'     => $request->input('message'),
+            'message' => $request->input('message'),
             'ticket_id' => $ticket->id,
         ]);
 

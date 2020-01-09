@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateMessageTable extends Migration
+class UpdateUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class UpdateMessageTable extends Migration
      */
     public function up()
     {
-        Schema::table('messages', function (Blueprint $table) {
-
-            $table->foreign('ticket_id')->references('id')->on('tickets');
+        Schema::table('users', function(Blueprint $table){
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
