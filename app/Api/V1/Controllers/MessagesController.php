@@ -47,7 +47,7 @@ class MessagesController extends Controller
             'sender_id' => Auth::id(),
             'receiver_id' => Auth::id(),
             'message' => $request->input('message'),
-            'ticket_id' => $ticket->id,
+            'ticket_id' => $request->input('ticket_id'),
         ]);
 
         $m = new MessageSent($message);

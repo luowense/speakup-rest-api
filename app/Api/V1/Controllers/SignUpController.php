@@ -2,6 +2,7 @@
 
 namespace App\Api\V1\Controllers;
 
+use App\Role;
 use Config;
 use App\User;
 use Tymon\JWTAuth\JWTAuth;
@@ -14,6 +15,7 @@ class SignUpController extends Controller
     public function signUp(SignUpRequest $request, JWTAuth $JWTAuth)
     {
         $user = new User($request->all());
+        $user->role_id = 1;
         if(!$user->save()) {
             throw new HttpException(500);
         }
