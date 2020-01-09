@@ -17,6 +17,7 @@ class MessageTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('sender_id');
             $table->unsignedInteger('receiver_id');
+            $table->unsignedInteger('ticket_id');
             $table->text('message');
             $table->timestamps();
 
@@ -32,6 +33,6 @@ class MessageTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('messages');
     }
 }
