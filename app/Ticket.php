@@ -8,6 +8,7 @@ class Ticket extends Model
 {
     protected $fillable = [
         'id',
+        'channelId'
     ];
 
     /**

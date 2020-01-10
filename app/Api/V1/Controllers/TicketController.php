@@ -13,6 +13,7 @@ class TicketController extends Controller
     public function start()
     {
         $ticket = new Ticket;
+        $ticket->channel_id = rand(0, 100000000);
         $ticket->save();
         return response(['ticket_id' => $ticket->id], 201);
     }

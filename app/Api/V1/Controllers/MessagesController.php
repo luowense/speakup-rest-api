@@ -45,11 +45,10 @@ class MessagesController extends Controller
     {
         $message = Message::create([
             'sender_id' => Auth::user()->id,
-            'receiver_id' => Auth::user()->id,
             'message' => $request->input('message'),
             'ticket_id' => $request->input('ticket_id'),
         ]);
-        $user = Auth::user()->getAuthIdentifier();
+        $user = Auth::user();
         $m = new MessageSent($message, $user);
         $m->broadcastOn();
 

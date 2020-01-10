@@ -15,6 +15,7 @@ class UpdateTicketTableMigration extends Migration
     {
         Schema::create('tickets', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('channel_id');
             $table->timestamps();
 
         });
