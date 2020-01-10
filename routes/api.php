@@ -18,8 +18,8 @@ $api->version('v1', function (Router $api) {
         $api->get('me', 'App\\Api\\V1\\Controllers\\UserController@me');
 
         $api->get('users', 'App\\Api\\V1\\Controllers\\UsersController@index');
-        $api->post('messages/{id}', 'App\\Api\\V1\\Controllers\\MessagesController@index');
-        $api->post('messages/{id}/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
+        $api->post('messages/', 'App\\Api\\V1\\Controllers\\MessagesController@index');
+        $api->post('messages/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
     });
 
     $api->post('tickets/start', 'App\\Api\\V1\\Controllers\\TicketController@start');

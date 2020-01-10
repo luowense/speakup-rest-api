@@ -25,16 +25,13 @@ DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sender_id` int(10) unsigned NOT NULL,
-  `receiver_id` int(10) unsigned NOT NULL,
   `ticket_id` int(10) unsigned NOT NULL,
   `message` text COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `messages_sender_id_foreign` (`sender_id`),
-  KEY `messages_receiver_id_foreign` (`receiver_id`),
   KEY `messages_ticket_id_foreign` (`ticket_id`),
-  CONSTRAINT `messages_receiver_id_foreign` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`),
   CONSTRAINT `messages_sender_id_foreign` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
   CONSTRAINT `messages_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -132,10 +129,11 @@ DROP TABLE IF EXISTS `tickets`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tickets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `channel_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,6 +142,7 @@ CREATE TABLE `tickets` (
 
 LOCK TABLES `tickets` WRITE;
 /*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
+INSERT INTO `tickets` VALUES (1,'59550725','2020-01-10 08:20:01','2020-01-10 08:20:01'),(2,'80139142','2020-01-10 08:20:03','2020-01-10 08:20:03'),(3,'38526857','2020-01-10 08:20:08','2020-01-10 08:20:08');
 /*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +166,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_unique` (`email`),
   KEY `users_role_id_foreign` (`role_id`),
   CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +175,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (2,'test4','test4@test.com','$2y$10$c0GqohTlMhKvOZsPXTy3y.Brd9CKRmasGTy2miywUhFxcgon0pIx.',NULL,'2020-01-10 08:30:16','2020-01-10 08:30:16',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -188,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-01-09 15:07:11
+-- Dump completed on 2020-01-10 10:32:32

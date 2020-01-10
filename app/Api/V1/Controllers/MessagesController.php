@@ -48,7 +48,8 @@ class MessagesController extends Controller
             'message' => $request->input('message'),
             'ticket_id' => $request->input('ticket_id'),
         ]);
-        $user = Auth::user();
+
+        $user = Auth::user()->id;
         $m = new MessageSent($message, $user);
         $m->broadcastOn();
 
