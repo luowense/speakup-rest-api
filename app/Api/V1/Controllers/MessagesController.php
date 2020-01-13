@@ -41,15 +41,15 @@ class MessagesController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $message = Message::create([
             'sender_id' => Auth::user()->id,
             'message' => $request->input('message'),
-            'ticket_id' => $request->input('ticket_id'),
+            'ticket_id' => $id,
         ]);
 
-        $user = Auth::user()->id;
+        $user = Auth::user();
         $m = new MessageSent($message, $user);
         $m->broadcastOn();
 
