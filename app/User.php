@@ -30,6 +30,7 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'role_id',
     ];
 
     /**
@@ -66,5 +67,15 @@ class User extends Authenticatable implements JWTSubject
     public function messages()
     {
         return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    public function roles()
+    {
+        return $this->belongTo(Role::class);
+    }
+
+    public function tickets()
+    {
+        return $this->belongsToMany(Ticket::class, 'ticket_id');
     }
 }

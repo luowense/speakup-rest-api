@@ -2,6 +2,7 @@
 
 namespace App\Api\V1\Controllers;
 
+use App\Ticket;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\JWTAuth;
 use App\Http\Controllers\Controller;
