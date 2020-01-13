@@ -15,25 +15,19 @@ class MessagesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return Response
      */
-    public function index()
+    public function index($id)
     {
-        return auth()
-            ->user()
-            ->messages()
-            ->where(function ($query) {
-                $query->bySender(request()->input('sender_id'))
-                    ->byReceiver(auth()->user()->id);
-            })
-            ->orWhere(function ($query) {
-                $query->bySender(auth()->user()->id)
-                    ->byReceiver(request()->input('sender_id'));
-            })
-            ->get();
-}
+        $messages = Message::all();
+        $idMessages = [];
+        foreach($messages as $message) {
+            if($message->ticket_id = $id){
+                array_push($idMessages, $message);
+            }
+        }
+
+        return $idMessages;
+    }
 
     /**
      * Store a newly created resource in storage.
