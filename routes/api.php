@@ -7,7 +7,8 @@ $api = app(Router::class);
 
 $api->version('v1', function (Router $api) {
     $api->group(['prefix' => 'auth'], function(Router $api) {
-        $api->post('signup', 'App\\Api\\V1\\Controllers\\SignUpController@signUp');
+        $api->post('signup/user', 'App\\Api\\V1\\Controllers\\SignUpController@signUpUser');
+        $api->post('signup/psy', 'App\\Api\\V1\\Controllers\\SignUpController@signUpPsy');
         $api->post('login', 'App\\Api\\V1\\Controllers\\LoginController@login');
 
         $api->post('recovery', 'App\\Api\\V1\\Controllers\\ForgotPasswordController@sendResetEmail');
@@ -15,12 +16,19 @@ $api->version('v1', function (Router $api) {
 
         $api->post('logout', 'App\\Api\\V1\\Controllers\\LogoutController@logout');
         $api->post('refresh', 'App\\Api\\V1\\Controllers\\RefreshController@refresh');
-        $api->get('me', 'App\\Api\\V1\\Controllers\\UserController@me');
+        $api->get('me', 'App\\Api\\V1\\Controllers\\UsersController@me');
 
         $api->get('users', 'App\\Api\\V1\\Controllers\\UsersController@index');
-        $api->post('messages', 'App\\Api\\V1\\Controllers\\MessagesController@index');
-        $api->post('messages/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
+        $api->get('ticket/{id}/messages/', 'App\\Api\\V1\\Controllers\\MessagesController@index');
+        $api->post('ticket/{id}/messages/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
+
+        $api->get('tickets/join', 'App\\Api\\V1\\Controllers\\TicketController@join');
+        $api->post('tickets/start', 'App\\Api\\V1\\Controllers\\TicketController@start');
+        $api->get('tickets/{id}', 'App\\Api\\V1\\Controllers\\TicketController@index');
     });
+
+
+
 
     $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->get('protected', function() {

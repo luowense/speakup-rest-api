@@ -25,14 +25,20 @@ class MessageSent implements ShouldBroadcastNow
     public $message;
 
     /**
+     * @var User
+     */
+    public $user;
+
+    /**
      *Create a new event instance
      *
      * @param Message $message
      * @param User $user
      */
-    public function __construct(Message $message)
+    public function __construct(Message $message, User $user)
     {
         $this->message = $message;
+        $this->user = $user;
     }
 
     /**
@@ -42,6 +48,7 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('newMessage-' . $this->message->sender_id . '-' . $this->message->receiver_id);
+        $userId = $this->user->id;
+        return new PrivateChannel('newMessage-' . $userId);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Api\V1\Controllers;
 
 use App\Api\V1\Events\MessageSent;
 use App\Message;
+use App\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
@@ -14,25 +15,21 @@ class MessagesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return Response
      */
-    public function index()
+    public function index($id)
     {
-        return auth()
-            ->user()
-            ->messages()
-            ->where(function ($query) {
-                $query->bySender(request()->input('sender_id'))
-                    ->byReceiver(auth()->user()->id);
-            })
-            ->orWhere(function ($query) {
-                $query->bySender(auth()->user()->id)
-                    ->byReceiver(request()->input('sender_id'));
-            })
-            ->get();
-}
+        $messages = Message::all();
+        $idMessages = [];
+        foreach($messages as $message) {
+            if($message->ticket_id == $id){
+                array_push($idMessages, $message);
+            }
+            elseif(empty($idMessages)) {
+                return 'No data found';
+            }
+        }
+        return $idMessages;
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,15 +37,16 @@ class MessagesController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $message = Message::create([
-            'sender_id'   => Auth::id(),
-            'receiver_id' => Auth::id(),
-            'message'     => $request->input('message'),
+            'sender_id' => Auth::user()->id,
+            'message' => $request->input('message'),
+            'ticket_id' => $id,
         ]);
 
-        $m = new MessageSent($message);
+        $user = Auth::user();
+        $m = new MessageSent($message, $user);
         $m->broadcastOn();
 
         return $message->fresh();

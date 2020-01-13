@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class MessageTable extends Migration
+class UpdateTicketTableMigration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class MessageTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('tickets', function(Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('sender_id');
-            $table->unsignedInteger('ticket_id');
-            $table->text('message');
+            $table->string('channel_id');
             $table->timestamps();
 
-            $table->foreign('sender_id')->references('id')->on('users');
         });
     }
 
@@ -31,6 +28,6 @@ class MessageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('tickets');
     }
 }
