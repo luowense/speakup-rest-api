@@ -31,7 +31,6 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
         'role_id',
-        'ticket_id'
     ];
 
     /**
@@ -75,5 +74,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongTo(Role::class);
     }
 
-
+    public function tickets()
+    {
+        return $this->belongsToMany(Ticket::class, 'ticket_id');
+    }
 }

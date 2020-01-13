@@ -21,11 +21,13 @@ class MessagesController extends Controller
         $messages = Message::all();
         $idMessages = [];
         foreach($messages as $message) {
-            if($message->ticket_id = $id){
+            if($message->ticket_id == $id){
                 array_push($idMessages, $message);
             }
+            elseif(empty($idMessages)) {
+                return 'No data found';
+            }
         }
-
         return $idMessages;
     }
 

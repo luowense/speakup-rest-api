@@ -16,7 +16,12 @@ class Ticket extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongToMany(User::class)
+            ->using(Ticket::class)
+            ->withPivot([
+                'created_by',
+                'updated_by'
+            ]);
     }
 
     /**
@@ -26,4 +31,5 @@ class Ticket extends Model
     {
         return $this->hasMany(Message::class);
     }
+
 }

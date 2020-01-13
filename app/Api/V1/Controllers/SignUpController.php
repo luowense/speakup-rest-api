@@ -15,7 +15,7 @@ class SignUpController extends Controller
 {
     public function signUpUser(SignUpRequest $request, JWTAuth $JWTAuth, Ticket $ticket)
     {
-        $user = new User($request->all());
+        $user = new User();
         $user->role_id = 1;
         $user->name = 'Anonyme';
         $user->email = 'fake@' . uniqid() . '.com';
