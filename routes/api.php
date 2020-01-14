@@ -26,7 +26,7 @@ $api->version('v1', function (Router $api) {
         $api->get('ticket/{id}/messages/', 'App\\Api\\V1\\Controllers\\MessagesController@index');
         $api->post('ticket/{id}/messages/send', 'App\\Api\\V1\\Controllers\\MessagesController@store');
 
-        $api->get('tickets/join', 'App\\Api\\V1\\Controllers\\TicketController@join');
+        $api->get('tickets/{id}/join', 'App\\Api\\V1\\Controllers\\TicketController@join');
         $api->post('tickets/start', 'App\\Api\\V1\\Controllers\\TicketController@start');
         $api->get('tickets/{id}', 'App\\Api\\V1\\Controllers\\TicketController@index');
         $api->get('users/{id}/tickets', 'App\\Api\\V1\\Controllers\\TicketController@checkTicketByPsy');

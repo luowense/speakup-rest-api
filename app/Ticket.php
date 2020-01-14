@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     protected $fillable = [
+      'collaboratorComment',
+        'confidentialComment'
+    ];
+
+    protected $hidden = [
         'id',
-        'channelId'
+        'channelId',
     ];
 
     /**

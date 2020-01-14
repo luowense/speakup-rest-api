@@ -32,24 +32,12 @@ class TicketController extends Controller
      * @param Ticket $ticket
      * @return string
      */
-    public function join(Ticket $ticket)
+    public function join($ticketId)
     {
-        $userId = Auth::user()->id;
-        $userTickets = User::find($userId)->tickets;
-
-        foreach($userTickets as $userTicket) {
-            if($userTicket->id == $ticket->id){
-                Broadcast::channel('channel.{ticketId}', function($ticket){
-                   $ticketId = $ticket->id;
-                   return $ticketId;
-                });
-                return response()->json('channel created', 201);
-            }
-            else {
-                abort(403, 'The user is not authorized');
-            }
-        }
-    }
+        $ticket = Ticket::find($ticketId);
+         Auth::user()->tickets()->attach($ticket->id);
+         return response()->json('channel created', 201);
+       }
 
     /**
      * Check completed tickets by psy
@@ -66,5 +54,14 @@ class TicketController extends Controller
             abort(404, 'user not found');
         }
         return response()->json($user->tickets);
+    }
+
+    /**
+     * Form evaluation at the end of the chat
+     * @param Request $request
+     */
+    public function formEvaluationStore()
+    {
+
     }
 }
