@@ -16,12 +16,7 @@ class Ticket extends Model
      */
     public function users()
     {
-        return $this->belongToMany(User::class)
-            ->using(Ticket::class)
-            ->withPivot([
-                'created_by',
-                'updated_by'
-            ]);
+        return $this->belongsToMany(User::class);
     }
 
     /**

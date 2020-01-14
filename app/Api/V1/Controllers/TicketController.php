@@ -34,15 +34,20 @@ class TicketController extends Controller
      */
     public function join(Ticket $ticket)
     {
-        if(Auth::user()->ticket_id == $ticket->id) {
-            Broadcast::channel('channel.{ticketId}', function($ticket){
-                $ticketId = $ticket->id;
-                return $ticketId;
-            });
-            return response()->json('channel created');
-        }
-        else {
-            return response()->json('the user is not authorized to connect to the channel');
+        $userId = Auth::user()->id;
+        $userTickets = User::find($userId)->tickets;
+
+        foreach($userTickets as $userTicket) {
+            if($userTicket->id == $ticket->id){
+                Broadcast::channel('channel.{ticketId}', function($ticket){
+                   $ticketId = $ticket->id;
+                   return $ticketId;
+                });
+                return response()->json('channel created', 201);
+            }
+            else {
+                abort(403, 'The user is not authorized');
+            }
         }
     }
 
@@ -53,25 +58,13 @@ class TicketController extends Controller
      */
     public function checkTicketByPsy($id)
     {
-        $psyResearch = User::find($id);
-
-        $tickets = Ticket::all();
-        $psyTickets = [];
-
-        foreach($tickets as $ticket) {
-            dd($ticket);
+        if(Auth::user()->role_id != 2) {
+            abort(403, 'not authorized');
         }
-
-        if($psyResearch->role_id != 2) {
-            return response()->json('the user is not authorized to get the datas');
+        $user = User::find($id);
+        if(!$user){
+            abort(404, 'user not found');
         }
-        else {
-            foreach($tickets as $ticket) {
-                if($ticket->user == $psyResearch->id) {
-                    array_push($psyTickets, $ticket);
-                }
-            }
-        }
-        return response()->json($psyTickets);
+        return response()->json($user->tickets);
     }
 }

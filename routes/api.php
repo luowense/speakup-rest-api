@@ -11,6 +11,10 @@ $api->version('v1', function (Router $api) {
         $api->post('signup/psy', 'App\\Api\\V1\\Controllers\\SignUpController@signUpPsy');
         $api->post('login', 'App\\Api\\V1\\Controllers\\LoginController@login');
 
+
+    });
+
+    $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
         $api->post('recovery', 'App\\Api\\V1\\Controllers\\ForgotPasswordController@sendResetEmail');
         $api->post('reset', 'App\\Api\\V1\\Controllers\\ResetPasswordController@resetPassword');
 
@@ -25,16 +29,10 @@ $api->version('v1', function (Router $api) {
         $api->get('tickets/join', 'App\\Api\\V1\\Controllers\\TicketController@join');
         $api->post('tickets/start', 'App\\Api\\V1\\Controllers\\TicketController@start');
         $api->get('tickets/{id}', 'App\\Api\\V1\\Controllers\\TicketController@index');
-        $api->get('tickets/psy/{id}', 'App\\Api\\V1\\Controllers\\TicketController@checkTicketByPsy');
-    });
-
-
-
-
-    $api->group(['middleware' => 'jwt.auth'], function(Router $api) {
+        $api->get('users/{id}/tickets', 'App\\Api\\V1\\Controllers\\TicketController@checkTicketByPsy');
         $api->get('protected', function() {
             return response()->json([
-                'message' => 'Access to protected resources granted! You are seeing this text as you provided the token correctly.'
+                'message' => 'Access to protected resources granted! You are seeing this text as you provided the token correctly.', 201
             ]);
         });
 
@@ -42,7 +40,7 @@ $api->version('v1', function (Router $api) {
             'middleware' => 'jwt.refresh',
             function() {
                 return response()->json([
-                    'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!'
+                    'message' => 'By accessing this endpoint, you can refresh your access token at each request. Check out this response headers!', 201
                 ]);
             }
         ]);
@@ -50,7 +48,7 @@ $api->version('v1', function (Router $api) {
 
     $api->get('hello', function() {
         return response()->json([
-            'message' => 'This is a simple example of item returned by your APIs. Everyone can see it.'
+            'message' => 'This is a simple example of item returned by your APIs. Everyone can see it.', 201
         ]);
     });
 });
