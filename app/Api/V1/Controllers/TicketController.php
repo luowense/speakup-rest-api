@@ -45,4 +45,33 @@ class TicketController extends Controller
             return response()->json('the user is not authorized to connect to the channel');
         }
     }
+
+    /**
+     * Check completed tickets by psy
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkTicketByPsy($id)
+    {
+        $psyResearch = User::find($id);
+
+        $tickets = Ticket::all();
+        $psyTickets = [];
+
+        foreach($tickets as $ticket) {
+            dd($ticket);
+        }
+
+        if($psyResearch->role_id != 2) {
+            return response()->json('the user is not authorized to get the datas');
+        }
+        else {
+            foreach($tickets as $ticket) {
+                if($ticket->user == $psyResearch->id) {
+                    array_push($psyTickets, $ticket);
+                }
+            }
+        }
+        return response()->json($psyTickets);
+    }
 }

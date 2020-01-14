@@ -14,7 +14,7 @@ class JoinTableUsersTickets extends Migration
     public function up()
     {
         Schema::create('ticket_user', function(Blueprint $table){
-           $table->increments('id');
+           $table->bigIncrements('id');
            $table->unsignedInteger('ticket_id');
            $table->unsignedInteger('user_id');
 
